@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Login and Registration</title>
+    <link rel='stylesheet' href='static/css/index.css'>
+    <!-- this order is very specific -->
+    <script type="text/javascript" src="angular/angular.min.js"></script>
+    <script type="text/javascript" src="angular-route/angular-route.min.js"></script>
+    <script type="text/javascript" src="angular-cookies/angular-cookies.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script type ="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script type ="text/javascript">
+
+        // Create Angular App
+        var app = angular.module("myApp", ['ngRoute', 'ngCookies']);
+
+        // Configure Angular Routes
+        app.config(function($routeProvider) {
+            $routeProvider
+                .when('/',{
+                    templateUrl: 'static/partials/loginReg.html',
+                    controller:'loginController'
+                })
+                .when('/code',{
+                    templateUrl: 'static/partials/code.html',
+                    controller:'codeController'
+                })
+                .when('/wall', {
+                    templateUrl: 'static/partials/wall.html',
+                    controller: 'wallController'
+                })
+                .otherwise({
+                    redirectTo: '/'
+                })
+
+        });
+    </script>
+    <script type="text/javascript" src="static/js/factories.js"></script>
+    <script type="text/javascript" src="static/js/controllers.js"></script>
+
+
+
+
+</head>
+
+<body>
+    <div class="header">
+      <a href="#!/code">Submit and Rate Code</a><a href="#!/wall">Go to Discussion</a>
+
+
+    </div>
+
+    <div ng-view=""></div> <!--html will go between the div tags from other pages in partials-->
+
+</body>
+</html>

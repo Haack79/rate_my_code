@@ -1,0 +1,15 @@
+<h1>Welcome: {{user.name}}</h1><button ng-click="clearCookie()">Log Out(clear cookie)</button>
+<div class="enter-code">
+<label>Enter Code: <textarea ng-model="newCode.code"></textarea></label>
+<button ng-click="submitNewCode()">Enter Code</button>
+</div>
+
+<div class="show-code" style="overflow:scroll; height:400px;">
+  <div class="repeat-code" ng-repeat"c in codes">
+    <p>{{c.code}}</p>
+    <p>{{c.rating}}</p>
+    <p>{{c._user.name}}</p>
+    <button ng-click="voteUp(c._id)">Vote Up</button>
+  </div>
+
+</div>

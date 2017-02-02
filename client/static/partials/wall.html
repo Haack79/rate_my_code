@@ -1,0 +1,24 @@
+<h1>Hello {{user.name}}</h1><button ng-click="clearCookie()">Log Out(clear cookie)</button>
+
+<!-- wall stuff will go here.  -->
+<div class="input-top">
+  <label>Enter Message: <textarea ng-model="newMessage.content"></textarea></label>
+  <button ng-click="submitNewMessage()">Submit</button>
+</div>
+
+<div class="messages" ng-repeat="m in messages">
+  <p class="message-content">{{m.content}} </p>
+  <p>{{m._user.name}}</p>
+
+  <div class="comment" ng-repeat="c in m._comments">
+    <p>{{c.content}}</p>
+    <p>{{c._user.name}}</p>
+  </div>
+
+  <div class="comment-field">
+    <label>Enter Comment: <textarea ng-model="content"></textarea></label>
+    <button ng-click="submitNewComment(m._id, content)">Submit</button>
+  </div>
+
+
+</div>

@@ -1,0 +1,25 @@
+{
+  "name": "wall_login_reg",
+  "version": "0.0.1",
+  "description": "Full Mean assignment",
+  "main": "server.js",
+  "author": "haackattack",
+  "files": [
+    "lib/"
+  ],
+  "dependencies": {
+    "bcrypt": "^1.0.2",
+    "body-parser": "latest",
+    "colors": "^1.1.2",
+    "debug": "2.3.3",
+    "engine.io": "1.8.2",
+    "express": "latest",
+    "has-binary": "0.1.7",
+    "mongoose": "latest",
+    "object-assign": "4.1.0",
+    "socket.io": "^1.7.2",
+    "socket.io-adapter": "0.5.0",
+    "socket.io-client": "1.7.2",
+    "socket.io-parser": "2.3.1"
+  }
+}
