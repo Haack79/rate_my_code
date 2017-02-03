@@ -1,7 +1,8 @@
 
 app.controller('loginController', function($scope, $cookies, loginFactory, $location, $cookies){ //need to inject factory to call methods on it.
   $scope.test = "hello";
-
+  $scope.showPrompt = $cookies.get('hideMask');
+  $scope.showPrompt = true;
   // check for existing cookie and will do stuff depending on if the cookie exists.
   function checkCookie(){
 
@@ -42,8 +43,8 @@ app.controller('loginController', function($scope, $cookies, loginFactory, $loca
     if($scope.reg.password && $scope.reg.password == $scope.reg.passconf && $scope.reg.name && $scope.reg.email){
       //call factory method to register user.
       loginFactory.register($scope.reg, function(info_from_db){
-        console.log(info_from_db);//logs info from db.
-        console.log("back from the database/ n factory -register done");
+        // console.log(info_from_db);//logs info from db.
+        // console.log("back from the database/ n factory -register done");
         $scope.user = info_from_db.data;
 
         if(info_from_db.data.error){
@@ -52,7 +53,8 @@ app.controller('loginController', function($scope, $cookies, loginFactory, $loca
           loginFactory.setUser(info_from_db.data, function(){ //this is a callback to set user into db.
 
             $cookies.put('cookie', JSON.stringify(info_from_db.data));
-
+            $cookies.put('hideMask', false);
+            $scope.showPrompt = false;
             $location.url('/wall'); //this reroutes us to wall controller, after callback runs and sets user to wall.
           });
         }
@@ -71,8 +73,8 @@ app.controller('loginController', function($scope, $cookies, loginFactory, $loca
 
     //call factory method to login user.
     loginFactory.login($scope.login, function(info_from_db){
-      console.log(info_from_db);
-      console.log("back from the database -login finished");
+      // console.log(info_from_db);
+      // console.log("back from the database -login finished");
 
       if(info_from_db.data.error){
         $scope.error = info_from_db.data.error;
@@ -93,7 +95,12 @@ app.controller('loginController', function($scope, $cookies, loginFactory, $loca
 
 //  wall controller =================================
 app.controller('wallController', function($scope, loginFactory, wallFactory, $cookies, $location){
-  console.log("in the wall controller");
+  $scope.user = {};
+  $scope.newMessage = {};
+  $scope.messages = [];
+
+  var m = document.getElementById('mess');
+
   //this triggers the connection in our server.
   var socket = io.connect();
   socket.on('getAllMessages', function (data){
@@ -101,9 +108,8 @@ app.controller('wallController', function($scope, loginFactory, wallFactory, $co
     getM();
   });
   //=====================
-  $scope.user = {};
 
-  $scope.messages = [];
+
   loginFactory.getUser(function(data){ //this data is coming from factory.
     $scope.user = data; //this data from the factory.
     console.log($scope.user);
@@ -111,59 +117,52 @@ app.controller('wallController', function($scope, loginFactory, wallFactory, $co
       console.log("kicking you out!");
       $location.url('/');//this sends back to login page.
     }
-
   });
+
+
+
   function getM(){
     wallFactory.getAllMessages(function(info_from_db){
       $scope.messages = info_from_db;
-      console.log(info_from_db);
+      // console.log(info_from_db);
+      top();
+      // m.scrollTop=m.scrollHeight;
     })
   }
+
   getM();
 
-  wallFactory.getAllMessages(function(info_from_db){
-    $scope.messages = info_from_db;
-    console.log(info_from_db);
-  })
+
+  function top(){
+    console.log("top");
+    setTimeout(function(){
+      m.scrollTop=m.scrollHeight;
+    }, 10)
+  }
+
 
   $scope.submitNewMessage = function(){
     $scope.newMessage._user = $scope.user._id;
-    console.log($scope.submitNewMessage);
+    // console.log($scope.submitNewMessage);
 
     //run the factory method to save new message
     wallFactory.submitNewMessage($scope.newMessage, function(info_from_db){
-      console.log(info_from_db);
+      // console.log(info_from_db);
       $scope.messages = info_from_db;
       //comment was saved at this point
-      socket.emit("updateInfo", {});
-    })
-
-  }
-    $scope.newMessage = {};
-
-
-    $scope.submitNewComment = function(id, content){
-
-    var newComment = {};
-    newComment._user = $scope.user._id;
-    newComment.content = content;
-    newComment._message = id;
-    console.log(newComment);
-
-    //run the factory method to save the comment.
-    wallFactory.submitNewComment(newComment, function(info_from_db) {
-      console.log(info_from_db);
-      $scope.messages = info_from_db;
-
-      //we know comment saved on this users wall.
+      $scope.newMessage = {};
+      top();
       socket.emit("updateInfo", {});
     })
   }
+
+
   //logout user
   $scope.clearCookie = function(){
     $cookies.remove('cookie');
     $location.url('/');
   }
+
 });
 // =============codeController ==============================
 app.controller('codeController', function($scope, codeFactory, loginFactory, wallFactory, $cookies, $location){
@@ -182,7 +181,7 @@ app.controller('codeController', function($scope, codeFactory, loginFactory, wal
     $scope.messages = info_from_db;
     console.log(info_from_db);
   })
-  
+
   $scope.submitNewCode = function(){
     $scope.newCode._user = $scope.user._id;
     console.log($scope.newCode);

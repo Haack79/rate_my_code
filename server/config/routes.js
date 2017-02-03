@@ -3,7 +3,6 @@
 // Require the controllers
 var users = require('./../controllers/users.js');
 var messages = require('./../controllers/messages.js');
-var comments = require('./../controllers/comments.js');
 var codes = require('./../controllers/codes.js');
 
 
@@ -36,14 +35,6 @@ module.exports = function(app, io) {
     });
     app.post('/messages/new', function(req, res) {
         messages.addMessage(req, res);
-    });
-    //Comment Routes ======================
-    app.post('/comments/new', function(req, res) {
-        comments.addComment(req, res); //go to comments.js
-    });
-    // add routes for code =========================
-    app.post('/addCode', function(req, res) {
-        comments.addCode(req, res); //go to comments.js
     });
     app.get('/codes/all', function(req, res) {
         messages.getAllCodes(req, res);

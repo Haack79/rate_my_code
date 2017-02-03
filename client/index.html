@@ -8,7 +8,8 @@
     <script type="text/javascript" src="angular/angular.min.js"></script>
     <script type="text/javascript" src="angular-route/angular-route.min.js"></script>
     <script type="text/javascript" src="angular-cookies/angular-cookies.min.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+    <!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> -->
     <script type ="text/javascript" src="/socket.io/socket.io.js"></script>
     <script type ="text/javascript">
 
@@ -19,6 +20,10 @@
         app.config(function($routeProvider) {
             $routeProvider
                 .when('/',{
+                    templateUrl: 'static/partials/loginReg.html',
+                    controller:'loginController'
+                })
+                .when('/home',{
                     templateUrl: 'static/partials/loginReg.html',
                     controller:'loginController'
                 })
@@ -41,14 +46,35 @@
 
 
 
-
 </head>
 
 <body>
     <div class="header">
       <a href="#!/code">Submit and Rate Code</a><a href="#!/wall">Go to Discussion</a>
+    </div>
 
 
+    <div class="loginMask" ng-show='showPrompt'>
+
+      <h1>Login and Reg Page</h1><button ng-click="clearCookie()">Log Out(clear cookie)</button>
+      <h3>{{error}}</h3>
+      <h5>{{user.name}}</h5>
+
+      <div class="reg">
+        <h4>Register</h4>
+        <label>Name: <input type="text" ng-model="reg.name"></label>
+        <label>Email: <input type="text" ng-model="reg.email"></label>
+        <label>Password: <input type="password" ng-model="reg.password"></label>
+        <label>Confirm Password: <input type="password" ng-model="reg.passconf"></label>
+        <button type="button" name="button" ng-click="regUser()">Register</button>
+      </div>
+
+      <div class="login">
+        <h4>Log In</h4>
+        <label>Email: <input type="text" ng-model="login.email"></label>
+        <label>Password: <input type="password" ng-model="login.password"></label>
+        <button type="button" name="button" ng-click="loginUser()">Login</button>
+      </div>
     </div>
 
     <div ng-view=""></div> <!--html will go between the div tags from other pages in partials-->

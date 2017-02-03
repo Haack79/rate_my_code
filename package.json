@@ -8,6 +8,7 @@
     "lib/"
   ],
   "dependencies": {
+    "angularjs-scroll-glue": "^2.1.0",
     "bcrypt": "^1.0.2",
     "body-parser": "latest",
     "colors": "^1.1.2",

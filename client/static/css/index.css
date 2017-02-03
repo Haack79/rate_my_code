@@ -30,9 +30,9 @@ h3 {
   color: red;
 }
 .input-top {
-  outline: 1px solid blue;
-  margin: 40px;
-  padding: 40px;
+  margin: 0 auto;
+  padding: 0;
+  width: 25%;
 }
 textarea {
   display: block;
@@ -57,9 +57,15 @@ span {
   text-align: right;
 }
 .messages {
-  outline: 1px solid blue;
-  margin: 40px;
-  padding: 40px;
+  outline: 1px solid black;
+  max-height: 150px;
+  width: 25%;
+  margin: 0 auto;
+  padding: 0;
+  margin-bottom: 10px;
+  margin-top: 10px;
+
+  overflow: auto;
 }
 .message-content {
   color: green;
